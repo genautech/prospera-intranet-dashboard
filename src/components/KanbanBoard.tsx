@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { KanbanColumn } from './KanbanColumn';
 import { Task } from '@/lib/types';
