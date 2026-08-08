@@ -2,7 +2,7 @@ export interface Task {
   id: string;
   title: string;
   description: string;
-  status: 'to_do' | 'in_progress' | 'completed' | 'paused';
+  status: 'to_do' | 'in_progress' | 'completed' | 'paused' | 'pending';
   assigned_to: 'Você' | 'Hermes' | 'Time';
   priority: 'low' | 'medium' | 'high';
   due_date?: string; // Formato YYYY-MM-DD
