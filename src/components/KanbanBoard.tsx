@@ -91,7 +91,7 @@ export function KanbanBoard() {
   // e passaria para KanbanColumn. Por enquanto, é apenas visual.
 
   return (
-    <div className="flex space-x-4 overflow-x-auto">
+    <div className="flex gap-4 overflow-x-auto pb-4">
       <KanbanColumn title="A Fazer" status="to_do" tasks={getTasksByStatus('to_do')} />
       <KanbanColumn title="Em Progresso" status="in_progress" tasks={getTasksByStatus('in_progress')} />
       <KanbanColumn title="Concluído" status="completed" tasks={getTasksByStatus('completed')} />

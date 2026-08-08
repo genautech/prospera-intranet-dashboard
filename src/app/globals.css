@@ -10,8 +10,7 @@
     --color-accent: #c67139; /* Terracota — CTAs, títulos, capa */
     --color-accent-2: #7a8a5e; /* Oliva — apoio, tags, sucesso */
     --color-divider: rgba(32,30,29,0.16); /* Réguas e bordas */
-    --font-heading: "Caprasimo", system-ui, sans-serif; /* Títulos, capa, números grandes */
-    --font-body: "Figtree", system-ui, sans-serif; /* Corpo, legendas, UI */
+    /* --font-heading e --font-body são injetadas por next/font no <html> */
     --radius-md: 16px;
     --radius-lg: 28px;
     --shadow-md: 0 3px 10px rgba(46,43,37,0.16);
@@ -19,13 +18,13 @@
 }
 
 body {
-    font-family: var(--font-body);
+    font-family: var(--font-body), system-ui, sans-serif;
     color: var(--color-text);
     background-color: var(--color-bg);
     line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
+h1, h2, h3 {
+    font-family: var(--font-heading), system-ui, sans-serif;
     color: var(--color-accent);
 }

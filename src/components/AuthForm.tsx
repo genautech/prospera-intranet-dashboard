@@ -8,6 +8,7 @@ export function AuthForm() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,11 +17,8 @@ export function AuthForm() {
 
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
-      setMessage(error.message);
-    } else {
-      setMessage('Login bem-sucedido!');
-    }
+    setIsError(!!error);
+    setMessage(error ? error.message : 'Login bem-sucedido!');
     setLoading(false);
   };
 
@@ -31,48 +29,47 @@ export function AuthForm() {
 
     const { error } = await supabase.auth.signUp({ email, password });
 
-    if (error) {
-      setMessage(error.message);
-    } else {
-      setMessage('Registro bem-sucedido! Verifique seu e-mail para confirmar.');
-    }
+    setIsError(!!error);
+    setMessage(error ? error.message : 'Registro bem-sucedido! Verifique seu e-mail para confirmar.');
     setLoading(false);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold text-center mb-6">Acesso à Intranet PROSPERA</h2>
+    <div className="flex justify-center py-10">
+      <div className="w-full max-w-md rounded-[var(--radius-md)] border border-divider bg-surface p-8 shadow-[0_3px_10px_rgba(46,43,37,0.16)]">
+        <h2 className="mb-6 text-center text-2xl">Acesso à Intranet PROSPERA</h2>
         <form className="space-y-4">
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">E-mail</label>
+            <label className="mb-1.5 block text-sm font-semibold text-ink" htmlFor="email">E-mail</label>
             <input
               type="email"
               id="email"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="w-full rounded-lg border border-divider bg-bg px-3 py-2 text-ink outline-none transition focus:border-accent focus:ring-1 focus:ring-accent"
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Senha</label>
+            <label className="mb-1.5 block text-sm font-semibold text-ink" htmlFor="password">Senha</label>
             <input
               type="password"
               id="password"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="w-full rounded-lg border border-divider bg-bg px-3 py-2 text-ink outline-none transition focus:border-accent focus:ring-1 focus:ring-accent"
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {message && <p className="text-sm text-center text-red-500">{message}</p>}
-          <div className="flex items-center justify-between">
+          {message && (
+            <p className={`text-center text-sm ${isError ? 'text-red-700' : 'text-olive'}`}>{message}</p>
+          )}
+          <div className="flex items-center gap-3 pt-2">
             <button
               type="button"
               onClick={handleLogin}
               disabled={loading}
-              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="flex-1 rounded-lg bg-accent px-4 py-2.5 font-semibold text-bg transition hover:opacity-90 disabled:opacity-50"
             >
               {loading ? 'Carregando...' : 'Entrar'}
             </button>
@@ -80,7 +77,7 @@ export function AuthForm() {
               type="button"
               onClick={handleSignUp}
               disabled={loading}
-              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="flex-1 rounded-lg border border-divider px-4 py-2.5 font-semibold text-ink transition hover:bg-bg disabled:opacity-50"
             >
               Cadastrar
             </button>

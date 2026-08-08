@@ -23,7 +23,7 @@ export default function HomePage() {
   }, []);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-xl">Carregando...</div>;
+    return <div className="flex justify-center py-20 opacity-60">Carregando...</div>;
   }
 
   if (!session) {
@@ -31,20 +31,20 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold text-center mb-10">Gestão de Tarefas PROSPERA</h1>
-      <KanbanBoard />
-      <div className="mt-8 text-center">
+    <div className="mx-auto max-w-6xl">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-3xl md:text-4xl">Gestão de Tarefas PROSPERA</h1>
         <button
           onClick={async () => {
             const { error } = await supabase.auth.signOut();
             if (error) console.error('Erro ao sair:', error.message);
           }}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          className="rounded-lg border border-divider px-4 py-2 text-sm font-semibold text-ink transition hover:bg-surface"
         >
           Sair
         </button>
       </div>
+      <KanbanBoard />
     </div>
   );
 }
