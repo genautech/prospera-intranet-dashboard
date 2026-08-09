@@ -9,7 +9,7 @@ export function useTasks() {
 
   useEffect(() => {
     async function fetchTasks() {
-      const { data, error } = await supabase.from('tasks').select('*');
+      const { data, error } = await supabase.from('tasks').select('*').order('created_at', { ascending: true });
       if (error) {
         setError(error.message);
       } else {
