@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabaseClient';
 import { AuthForm } from '@/components/AuthForm';
 import { KanbanBoard } from '@/components/KanbanBoard';
@@ -15,6 +16,7 @@ import { dashboardData } from '@/lib/dashboardData';
 const SECTIONS = [
   { id: 'visao-geral', title: 'Visão Geral e Status do Projeto' },
   { id: 'fases', title: 'Progresso das Fases de Execução' },
+  { id: 'plano-conhecimento', title: 'Plano de Conhecimento Aplicado' },
   { id: 'kanban', title: 'Kanban de Tarefas' },
   { id: 'orquestracao', title: 'Orquestração de LLMs e Ferramentas' },
   { id: 'playbooks', title: 'Playbooks e Conhecimento' },
@@ -23,24 +25,26 @@ const SECTIONS = [
 ];
 
 export default function HomePage() {
-  const [session, setSession] = useState<any | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [loadingSession, setLoadingSession] = useState(true);
   const [authNotice, setAuthNotice] = useState<string | null>(null);
-  const { tasks, loading: loadingTasks, error: tasksError } = useTasks();
+  const { tasks, loading: loadingTasks, error: tasksError, setTasks, updateTaskStatus } = useTasks();
 
   useEffect(() => {
     const hash = new URLSearchParams(window.location.hash.slice(1));
     const code = hash.get('error_code');
+    const notice = code
+      ? code === 'otp_expired'
+        ? 'O link do e-mail expirou ou já foi usado. Peça um novo link e abra-o em até 1 hora.'
+        : hash.get('error_description') || 'Não foi possível concluir o acesso pelo link do e-mail.'
+      : null;
+
     if (code) {
-      setAuthNotice(
-        code === 'otp_expired'
-          ? 'O link do e-mail expirou ou já foi usado. Peça um novo link e abra-o em até 1 hora.'
-          : hash.get('error_description') || 'Não foi possível concluir o acesso pelo link do e-mail.'
-      );
       history.replaceState(null, '', window.location.pathname);
     }
 
     supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuthNotice(notice);
       setSession(session);
       setLoadingSession(false);
     });
@@ -107,29 +111,37 @@ export default function HomePage() {
           <DataTable data={dashboardData.phases} />
         </SectionCard>
 
-        <SectionCard id="kanban" number={3} title="Kanban de Tarefas">
+        <SectionCard id="plano-conhecimento" number={3} title="Plano de Conhecimento Aplicado">
+          <p className="mb-4 text-sm opacity-75">
+            A trilha K0–K6 transforma fontes em contratos, artefatos verificados e aprendizado reutilizável.
+            Ela atravessa as fases comerciais do MVP sem substituir o masterplan.
+          </p>
+          <DataTable data={dashboardData.knowledgePlan} />
+        </SectionCard>
+
+        <SectionCard id="kanban" number={4} title="Kanban de Tarefas">
           {loadingTasks ? (
             <p className="py-6 text-center opacity-60">Carregando tarefas...</p>
           ) : tasksError ? (
             <p className="py-6 text-center text-sm text-red-700">Erro ao carregar tarefas: {tasksError}</p>
           ) : (
-            <KanbanBoard tasks={tasks} />
+            <KanbanBoard tasks={tasks} setTasks={setTasks} updateTaskStatus={updateTaskStatus} />
           )}
         </SectionCard>
 
-        <SectionCard id="orquestracao" number={4} title="Orquestração de LLMs e Ferramentas">
+        <SectionCard id="orquestracao" number={5} title="Orquestração de LLMs e Ferramentas">
           <DataTable data={dashboardData.orchestration} />
         </SectionCard>
 
-        <SectionCard id="playbooks" number={5} title="Playbooks e Conhecimento">
+        <SectionCard id="playbooks" number={6} title="Playbooks e Conhecimento">
           <Playbooks groups={dashboardData.playbooks} />
         </SectionCard>
 
-        <SectionCard id="metricas" number={6} title="Métricas Chave">
+        <SectionCard id="metricas" number={7} title="Métricas Chave">
           <DataTable data={dashboardData.metrics} />
         </SectionCard>
 
-        <SectionCard id="log" number={7} title="Log de Execução Recente">
+        <SectionCard id="log" number={8} title="Log de Execução Recente">
           <ExecutionLog entries={dashboardData.log} note={dashboardData.logNote} />
         </SectionCard>
       </div>

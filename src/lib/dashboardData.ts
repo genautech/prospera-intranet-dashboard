@@ -11,6 +11,7 @@ export interface LogEntry { when: string; what: string; links: LinkRef[] }
 export interface DashboardData {
   overview: OverviewItem[];
   phases: TableData;
+  knowledgePlan: TableData;
   orchestration: TableData;
   playbooks: PlaybookGroup[];
   metrics: TableData;
@@ -74,7 +75,7 @@ export const dashboardData: DashboardData = {
           "links": []
         },
         {
-          "text": "MVP - Fundação Rápida (Semana 1 - Dia 7)",
+          "text": "MVP - Planejamento do Piloto OPERADOR",
           "links": []
         },
         {
@@ -86,7 +87,7 @@ export const dashboardData: DashboardData = {
           "links": []
         },
         {
-          "text": "Refatoração do e-book piloto \"OPERADOR\" concluída no planejamento.",
+          "text": "Planejamento do OPERADOR concluído; produção, QA e validação comercial seguem na trilha K3.",
           "links": []
         }
       ],
@@ -155,6 +156,74 @@ export const dashboardData: DashboardData = {
           "text": "Otimização e criação de novos e-books.",
           "links": []
         }
+      ]
+    ]
+  },
+  "knowledgePlan": {
+    "heads": [
+      "Etapa",
+      "Janela",
+      "Resultado operacional",
+      "Skills",
+      "Gate de saída",
+      "Status"
+    ],
+    "rows": [
+      [
+        { "text": "K0 · Memória organizacional", "links": [] },
+        { "text": "Concluída", "links": [] },
+        { "text": "EMAI Starter Vault canônico, Knowledge Studio conectado e manifesto do PROSPERA disponível no dashboard.", "links": [] },
+        { "text": "obsidian · project-knowledge-integration", "links": [] },
+        { "text": "Fonte, síntese, projeto e proveniência recuperáveis.", "links": [] },
+        { "text": "✅ Concluída", "links": [] }
+      ],
+      [
+        { "text": "K1 · Curadoria das fontes", "links": [] },
+        { "text": "Concluída", "links": [] },
+        { "text": "Vídeos sobre Obsidian como sistema operacional e direção visual Kimi transformados em princípios aplicáveis.", "links": [] },
+        { "text": "project-knowledge-integration · obsidian", "links": [] },
+        { "text": "Resumo baseado na transcrição, limites declarados e uso no PROSPERA.", "links": [] },
+        { "text": "✅ Concluída", "links": [] }
+      ],
+      [
+        { "text": "K2 · Contrato do produto", "links": [] },
+        { "text": "Dias 1–3", "links": [] },
+        { "text": "Contrato do curso OPERADOR ligado à URL viva, com jornada de 30 dias, método interativo, DNA próprio, claims bloqueados e backlog R1–R5.", "links": [] },
+        { "text": "infoprod-knowledge-agent · obsidian", "links": [] },
+        { "text": "30 missões inventariadas com fonte e revisão; hoje 1/30 está observada.", "links": [] },
+        { "text": "▶ Em execução · 1/30 missões", "links": [] }
+      ],
+      [
+        { "text": "K3 · Produção do piloto", "links": [] },
+        { "text": "Dias 4–10", "links": [] },
+        { "text": "Curso OPERADOR refatorado: 30 missões, briefings, validações, D+48h, progressão, modo calmo e experiência interativa responsiva.", "links": [] },
+        { "text": "infoprod-knowledge-agent · hallmark", "links": [] },
+        { "text": "QA factual, editorial, visual, mobile e acessibilidade aprovado; artefatos salvos no vault.", "links": [] },
+        { "text": "⚪ Pendente", "links": [] }
+      ],
+      [
+        { "text": "K4 · Experiência de venda", "links": [] },
+        { "text": "Dias 11–21", "links": [] },
+        { "text": "Vitrine, página narrativa, checkout e entrega implementados com composição mobile própria e telemetria por variante.", "links": [] },
+        { "text": "hallmark · infoprod-knowledge-agent", "links": [] },
+        { "text": "Fluxo ponta a ponta testado; performance, responsividade, tracking e recuperação de falhas verificados.", "links": [] },
+        { "text": "⚪ Pendente", "links": [] }
+      ],
+      [
+        { "text": "K5 · Lançamento e validação", "links": [] },
+        { "text": "Dias 22–30", "links": [] },
+        { "text": "Venda real controlada, métricas de funil e feedback de compradores registrados por variante.", "links": [] },
+        { "text": "infoprod-knowledge-agent · /afiliados quando aplicável", "links": [] },
+        { "text": "Checkout real, eventos analíticos e entrega confirmados; campanha paga/afiliada passa pelos gates de /afiliados.", "links": [] },
+        { "text": "⚪ Pendente", "links": [] }
+      ],
+      [
+        { "text": "K6 · Aprendizado escalável", "links": [] },
+        { "text": "Contínua após o piloto", "links": [] },
+        { "text": "Retrospectiva do OPERADOR convertida em SOPs, templates, presets e melhorias da skill para os próximos e-books.", "links": [] },
+        { "text": "project-knowledge-integration · obsidian", "links": [] },
+        { "text": "Cada decisão liga evidência, resultado, mudança de processo e responsável.", "links": [] },
+        { "text": "⚪ Pendente", "links": [] }
       ]
     ]
   },
@@ -383,6 +452,22 @@ export const dashboardData: DashboardData = {
       "title": "Base de Conhecimento:",
       "items": [
         {
+          "url": "file:///Users/genautech/EMAI%20Starter%20Vault/Conhecimento/Projetos/infoprod/PROSPERA%20-%20Sistema%20de%20conhecimento%20e%20skills.md",
+          "title": "Sistema de conhecimento e skills do PROSPERA"
+        },
+        {
+          "url": "file:///Users/genautech/EMAI%20Starter%20Vault/Conhecimento/Projetos/infoprod/PROSPERA%20-%20Plano%20de%20implementa%C3%A7%C3%A3o%20do%20conhecimento.md",
+          "title": "Plano de implementação do conhecimento K0–K6"
+        },
+        {
+          "url": "file:///Users/genautech/EMAI%20Starter%20Vault/00%20Human/30%20Projects/PROSPERA/Contracts/Contrato%20do%20Produto%20-%20Curso%20OPERADOR.md",
+          "title": "Contrato do Produto — Curso OPERADOR"
+        },
+        {
+          "url": "file:///Users/genautech/EMAI%20Starter%20Vault/00%20Human/30%20Projects/PROSPERA/Contracts/Matriz%20Curricular%20OPERADOR%20-%2030%20Dias.md",
+          "title": "Matriz Curricular OPERADOR — 30 Dias"
+        },
+        {
           "url": "file:///Users/genautech/notes/Conhecimento/PROSPERA/dna/",
           "title": "DNA PROSPERA"
         },
@@ -519,6 +604,11 @@ export const dashboardData: DashboardData = {
     ]
   },
   "log": [
+    {
+      "when": "2026-08-08",
+      "what": "Conhecimento dos vídeos incorporado ao masterplan como trilha K0–K6, com entregáveis, skills, gates e proveniência no EMAI Starter Vault.",
+      "links": []
+    },
     {
       "when": "2026-08-08",
       "what": "Dashboard HTML (V1) criado e vinculado.",

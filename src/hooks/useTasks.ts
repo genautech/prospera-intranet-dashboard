@@ -7,6 +7,15 @@ export function useTasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  async function updateTaskStatus(taskId: string, newStatus: Task['status']) {
+    const { error } = await supabase.from('tasks').update({ status: newStatus }).eq('id', taskId);
+    if (error) {
+      console.error('Erro ao atualizar o status da tarefa:', error.message);
+      return false;
+    }
+    return true;
+  }
+
   useEffect(() => {
     async function fetchTasks() {
       const { data, error } = await supabase.from('tasks').select('*').order('created_at', { ascending: true });
@@ -21,5 +30,5 @@ export function useTasks() {
     fetchTasks();
   }, []);
 
-  return { tasks, loading, error, setTasks };
+  return { tasks, loading, error, setTasks, updateTaskStatus };
 }

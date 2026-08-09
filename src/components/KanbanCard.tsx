@@ -1,4 +1,6 @@
 import { Task } from '@/lib/types';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface KanbanCardProps {
   task: Task;
@@ -25,8 +27,21 @@ const getResponsibilityColor = (assigned_to: Task['assigned_to']) => {
 };
 
 export function KanbanCard({ task }: KanbanCardProps) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <div className="rounded-xl border border-divider bg-bg p-4 text-sm shadow-[0_1px_3px_rgba(46,43,37,0.10)] transition hover:shadow-[0_3px_10px_rgba(46,43,37,0.16)]">
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="rounded-xl border border-divider bg-bg p-4 text-sm shadow-[0_1px_3px_rgba(46,43,37,0.10)] transition hover:shadow-[0_3px_10px_rgba(46,43,37,0.16)]"
+    >
       <h4 className="font-semibold leading-snug text-ink">{task.title}</h4>
       <div className="mt-2 flex flex-wrap items-center gap-1.5">
         <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${getStatusColor(task.status)}`}>
