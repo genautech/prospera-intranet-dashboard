@@ -40,11 +40,11 @@ export function KanbanCard({ task }: KanbanCardProps) {
       {task.due_date && (
         <p className="mt-2 text-xs opacity-60"><strong>Prazo:</strong> {task.due_date}</p>
       )}
-      {task.references.length > 0 && (
+      {task.task_references.length > 0 && (
         <div className="mt-2">
           <strong className="text-xs opacity-70">Referências:</strong>
           <ul className="mt-1 space-y-0.5 text-xs">
-            {task.references.map((ref, index) => (
+            {task.task_references.map((ref, index) => (
               <li key={index}>
                 <a
                   href={ref.url}

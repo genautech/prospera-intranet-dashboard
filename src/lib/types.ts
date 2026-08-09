@@ -6,7 +6,7 @@ export interface Task {
   assigned_to: 'Você' | 'Hermes' | 'Time';
   priority: 'low' | 'medium' | 'high';
   due_date?: string; // Formato YYYY-MM-DD
-  references: { title: string; url: string; }[];
+  task_references: { title: string; url: string; }[];
   notes?: string;
 }
 

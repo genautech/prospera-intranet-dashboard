@@ -4,15 +4,17 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { AuthForm } from '@/components/AuthForm';
 import { KanbanBoard } from '@/components/KanbanBoard';
+import { useTasks } from '@/hooks/useTasks'; // Importa o hook useTasks
 
 export default function HomePage() {
   const [session, setSession] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingSession, setLoadingSession] = useState(true); // Renomeado para evitar conflito
+  const { tasks, loading: loadingTasks, error: tasksError } = useTasks(); // Usa o hook useTasks
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      setLoading(false);
+      setLoadingSession(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -22,8 +24,12 @@ export default function HomePage() {
     return () => subscription.unsubscribe();
   }, []);
 
-  if (loading) {
-    return <div className="flex justify-center py-20 opacity-60">Carregando...</div>;
+  if (loadingSession || loadingTasks) { // Verifica ambos os loadings
+    return <div className="min-h-screen flex items-center justify-center text-xl">Carregando...</div>;
+  }
+
+  if (tasksError) {
+    return <div className="min-h-screen flex items-center justify-center text-xl text-red-500">Erro ao carregar tarefas: {tasksError}</div>;
   }
 
   if (!session) {
@@ -31,20 +37,20 @@ export default function HomePage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl">
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl md:text-4xl">Gestão de Tarefas PROSPERA</h1>
+    <div className="min-h-screen bg-gray-100 p-8">
+      <h1 className="text-4xl font-bold text-center mb-10">Gestão de Tarefas PROSPERA</h1>
+      <KanbanBoard tasks={tasks} /> {/* Passa as tarefas do Supabase para o KanbanBoard */}
+      <div className="mt-8 text-center">
         <button
           onClick={async () => {
             const { error } = await supabase.auth.signOut();
             if (error) console.error('Erro ao sair:', error.message);
           }}
-          className="rounded-lg border border-divider px-4 py-2 text-sm font-semibold text-ink transition hover:bg-surface"
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
         >
           Sair
         </button>
       </div>
-      <KanbanBoard />
     </div>
   );
 }
